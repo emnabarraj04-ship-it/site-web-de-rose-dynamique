@@ -5,10 +5,10 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: connexion.php');
     exit();
 }
-require_once '../classes/connexion.php';
+require_once '../controllers/FrontController.php';
 
-$res = $pdo->query("SELECT * FROM produit");
-$produits = $res->fetchAll(PDO::FETCH_ASSOC);
+$frontController = new FrontController();
+$produits = $frontController->getAllProduits();
 ?>
 <!DOCTYPE html>
 <html lang="fr">

@@ -1,14 +1,3 @@
 <?php
-// Connexion à la base de données (PDO - Chapitre 3)
-$host = 'localhost';
-$db   = 'roses_db';
-$user = 'root';
-$pass = '';
-
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die('Erreur connexion : ' . $e->getMessage());
-}
+require_once __DIR__ . '/../config/database.php';
 ?>

@@ -1,8 +1,10 @@
 <?php
 // ===== back/liste_utilisateurs.php =====
 require_once 'auth.php';
-require_once '../classes/connexion.php';
-$users = $pdo->query("SELECT * FROM utilisateur ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+require_once '../controllers/AdminController.php';
+
+$adminController = new AdminController();
+$users = $adminController->getUsers();
 ?>
 <!DOCTYPE html>
 <html lang="fr">

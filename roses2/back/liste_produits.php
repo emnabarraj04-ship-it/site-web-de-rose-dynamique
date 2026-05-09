@@ -1,14 +1,16 @@
 <?php
 // ===== back/liste_produits.php =====
 require_once 'auth.php';
-require_once '../classes/connexion.php';
+require_once '../controllers/AdminController.php';
+
+$adminController = new AdminController();
 
 if (isset($_GET['supprimer'])) {
-    $pdo->exec("DELETE FROM produit WHERE id='".$_GET['supprimer']."'");
+    $adminController->supprimerProduit((int)$_GET['supprimer']);
     header('Location: liste_produits.php?succes=1'); exit();
 }
 
-$produits = $pdo->query("SELECT * FROM produit")->fetchAll(PDO::FETCH_ASSOC);
+$produits = $adminController->getProduits();
 ?>
 <!DOCTYPE html>
 <html lang="fr">

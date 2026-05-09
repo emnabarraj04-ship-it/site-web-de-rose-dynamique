@@ -1,9 +1,12 @@
 <?php
 require_once 'auth.php';
-require_once '../classes/connexion.php';
-$nb_p = $pdo->query("SELECT count(*) FROM produit")->fetchColumn();
-$nb_u = $pdo->query("SELECT count(*) FROM utilisateur WHERE role='client'")->fetchColumn();
-$nb_c = $pdo->query("SELECT count(*) FROM commande")->fetchColumn();
+require_once '../controllers/AdminController.php';
+
+$adminController = new AdminController();
+$stats = $adminController->getDashboardStats();
+$nb_p = $stats['nb_p'];
+$nb_u = $stats['nb_u'];
+$nb_c = $stats['nb_c'];
 ?>
 <!DOCTYPE html>
 <html lang="fr">

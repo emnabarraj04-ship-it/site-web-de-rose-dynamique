@@ -10,38 +10,18 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 
-require_once '../classes/connexion.php';
+require_once '../controllers/FrontController.php';
+$frontController = new FrontController();
 
 $erreur = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
-    $mdp   = $_POST['mot_de_passe'];
-
-    $req  = $pdo->query("SELECT * FROM utilisateur WHERE email='$email'");
-    $user = $req->fetch(PDO::FETCH_ASSOC);
-
-    if ($user && password_verify($mdp, $user['mot_de_passe'])) {
-
-        // Créer la session (Chapitre 4)
-        $_SESSION['user_id']   = $user['id'];
-        $_SESSION['user_nom']  = $user['nom'];
-        $_SESSION['user_role'] = $user['role'];
-
-        // Cookie : se souvenir du visiteur (Chapitre 4 du cours)
-        // time()+60*60*24*30 = expire dans 30 jours
-        setcookie("dernier_visiteur", $user['prenom'], time()+60*60*24*30, "/", "", 0);
-
-        if ($user['role'] == 'admin') {
-            header('Location: ../back/dashboard.php');
-        } else {
-            header('Location: ../index.php');
-        }
+    $result = $frontController->connexion($_POST['email'] ?? '', $_POST['mot_de_passe'] ?? '');
+    if (!empty($result['redirect'])) {
+        header('Location: ' . $result['redirect']);
         exit();
-
-    } else {
-        $erreur = "Email ou mot de passe incorrect.";
     }
+    $erreur = $result['erreur'];
 }
 ?>
 <!DOCTYPE html>

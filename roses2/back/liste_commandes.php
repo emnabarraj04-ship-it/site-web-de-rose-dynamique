@@ -1,8 +1,9 @@
 <?php
 require_once 'auth.php';
-require_once '../classes/connexion.php';
-$res = $pdo->query("SELECT c.*, u.nom, u.prenom, p.nom as produit, p.image, p.prix FROM commande c JOIN utilisateur u ON c.user_id=u.id JOIN produit p ON c.produit_id=p.id ORDER BY c.date_cmd DESC");
-$commandes = $res->fetchAll(PDO::FETCH_ASSOC);
+require_once '../controllers/AdminController.php';
+
+$adminController = new AdminController();
+$commandes = $adminController->getCommandes();
 ?>
 <!DOCTYPE html>
 <html lang="fr">

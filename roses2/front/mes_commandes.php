@@ -2,11 +2,10 @@
 // ===== front/mes_commandes.php =====
 session_start();
 if (!isset($_SESSION['user_id'])) { header('Location: connexion.php'); exit(); }
-require_once '../classes/connexion.php';
+require_once '../controllers/FrontController.php';
 
-$id  = $_SESSION['user_id'];
-$res = $pdo->query("SELECT c.*, p.nom, p.image, p.prix FROM commande c JOIN produit p ON c.produit_id=p.id WHERE c.user_id='$id' ORDER BY c.date_cmd DESC");
-$commandes = $res->fetchAll(PDO::FETCH_ASSOC);
+$frontController = new FrontController();
+$commandes = $frontController->getMesCommandes((int)$_SESSION['user_id']);
 ?>
 <!DOCTYPE html>
 <html lang="fr">

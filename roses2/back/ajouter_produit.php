@@ -1,12 +1,12 @@
 <?php
 require_once 'auth.php';
-require_once '../classes/connexion.php';
+require_once '../controllers/AdminController.php';
+$adminController = new AdminController();
 $erreur = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $nom=$_POST['nom']; $description=$_POST['description']; $prix=$_POST['prix']; $stock=$_POST['stock']; $image=$_POST['image'];
-    if (empty($nom)||empty($prix)) { $erreur="Nom et prix obligatoires."; }
-    else {
-        $pdo->exec("INSERT INTO produit (nom,description,prix,stock,image) VALUES ('$nom','$description','$prix','$stock','$image')");
+    $result = $adminController->ajouterProduit($_POST);
+    $erreur = $result['erreur'];
+    if ($erreur === '') {
         header('Location: liste_produits.php?succes=1'); exit();
     }
 }
