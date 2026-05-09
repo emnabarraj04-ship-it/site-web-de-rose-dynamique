@@ -31,6 +31,11 @@ CREATE TABLE commande (
     FOREIGN KEY (produit_id) REFERENCES produit(id)
 );
 
+CREATE TABLE utilisateur_mvc (
+    user_cin VARCHAR(20) PRIMARY KEY,
+    user_nom VARCHAR(100)
+);
+
 -- Admin (mot de passe : password)
 INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, role) VALUES
 ('Admin', 'Super', 'admin@roses.tn', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
@@ -43,3 +48,7 @@ INSERT INTO produit (nom, description, prix, stock, image) VALUES
 ('Bouquet 12 Roses', 'Un magnifique bouquet de 12 roses rouges.',       45.00, 20, '💐'),
 ('Rose Jaune',       'Symbole d amitié et de joie.',                     4.00, 35, '🌼'),
 ('Bouquet Mixte',    'Un mélange coloré de toutes les couleurs.',        38.00, 15, '🌺');
+
+INSERT INTO utilisateur_mvc (user_cin, user_nom) VALUES
+('1471456', 'Aziz'),
+('12345678', 'Wassim');

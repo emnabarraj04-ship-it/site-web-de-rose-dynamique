@@ -32,6 +32,7 @@ $produits = $res->fetchAll(PDO::FETCH_ASSOC);
     <div>
         <a href="index.php">Accueil</a>
         <a href="front/produits.php">Nos Roses</a>
+        <a href="view/liste.php">Module MVC</a>
         <?php if (isset($_SESSION['user_id'])): ?>
             <a href="front/profil.php">Mon Profil</a>
             <a href="front/commande.php">Commander</a>
