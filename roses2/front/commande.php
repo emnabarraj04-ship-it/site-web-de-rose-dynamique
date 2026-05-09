@@ -2,31 +2,22 @@
 // ===== front/commande.php =====
 session_start();
 if (!isset($_SESSION['user_id'])) { header('Location: connexion.php'); exit(); }
-require_once '../classes/connexion.php';
+require_once '../controllers/FrontController.php';
+
+$frontController = new FrontController();
 
 $succes = ''; $erreur = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $prod_id  = $_POST['produit_id'];
-    $quantite = $_POST['quantite'];
-    $adresse  = $_POST['adresse'];
-    $user_id  = $_SESSION['user_id'];
-
-    if (empty($adresse) || $quantite < 1) {
-        $erreur = "Veuillez remplir tous les champs.";
-    } else {
-        $pdo->exec("INSERT INTO commande (user_id, produit_id, quantite, adresse) VALUES ('$user_id','$prod_id','$quantite','$adresse')");
-        $pdo->exec("UPDATE produit SET stock = stock - '$quantite' WHERE id='$prod_id'");
-        $succes = "✅ Commande passée avec succès !";
-    }
+    $result = $frontController->passerCommande((int)$_SESSION['user_id'], $_POST);
+    $erreur = $result['erreur'];
+    $succes = $result['succes'];
 }
 
-$res = $pdo->query("SELECT * FROM produit WHERE stock > 0");
-$produits = $res->fetchAll(PDO::FETCH_ASSOC);
+$produits = $frontController->getProduitsDisponibles();
 $produit  = null;
 if (isset($_GET['id'])) {
-    $req    = $pdo->query("SELECT * FROM produit WHERE id='" . $_GET['id'] . "'");
-    $produit = $req->fetch(PDO::FETCH_ASSOC);
+    $produit = $frontController->getProduitById((int)$_GET['id']);
 }
 ?>
 <!DOCTYPE html>

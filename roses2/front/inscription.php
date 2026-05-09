@@ -5,31 +5,17 @@ if (isset($_SESSION['user_id'])) {
     header('Location: ../index.php');
     exit();
 }
-require_once '../classes/connexion.php';
+require_once '../controllers/FrontController.php';
+
+$frontController = new FrontController();
 
 $erreur = '';
 $succes = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $nom     = $_POST['nom'];
-    $prenom  = $_POST['prenom'];
-    $email   = $_POST['email'];
-    $mdp     = $_POST['mot_de_passe'];
-    $adresse = $_POST['adresse'];
-
-    if (empty($nom) || empty($prenom) || empty($email) || empty($mdp)) {
-        $erreur = "Veuillez remplir tous les champs.";
-    } else {
-        $req = $pdo->query("SELECT id FROM utilisateur WHERE email='$email'");
-        if ($req->rowCount() > 0) {
-            $erreur = "Cet email est déjà utilisé.";
-        } else {
-            $hash = password_hash($mdp, PASSWORD_BCRYPT);
-            $pdo->exec("INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, adresse)
-                        VALUES ('$nom', '$prenom', '$email', '$hash', '$adresse')");
-            $succes = "Inscription réussie ! Vous pouvez vous connecter.";
-        }
-    }
+    $result = $frontController->inscription($_POST);
+    $erreur = $result['erreur'];
+    $succes = $result['succes'];
 }
 ?>
 <!DOCTYPE html>

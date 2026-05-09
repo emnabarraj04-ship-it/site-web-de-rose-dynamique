@@ -1,17 +1,19 @@
 <?php
 require_once 'auth.php';
-require_once '../classes/connexion.php';
+require_once '../controllers/AdminController.php';
 if (!isset($_GET['id'])) { header('Location: liste_produits.php'); exit(); }
+if ((int)$_GET['id'] < 1) { header('Location: liste_produits.php'); exit(); }
+$adminController = new AdminController();
 $id=$_GET['id']; $erreur='';
 if ($_SERVER['REQUEST_METHOD']=='POST') {
-    $nom=$_POST['nom']; $description=$_POST['description']; $prix=$_POST['prix']; $stock=$_POST['stock']; $image=$_POST['image'];
-    if (empty($nom)||empty($prix)) { $erreur="Nom et prix obligatoires."; }
-    else {
-        $pdo->exec("UPDATE produit SET nom='$nom',description='$description',prix='$prix',stock='$stock',image='$image' WHERE id='$id'");
+    $result = $adminController->updateProduit((int)$id, $_POST);
+    $erreur = $result['erreur'];
+    if ($erreur === '') {
         header('Location: liste_produits.php?succes=1'); exit();
     }
 }
-$p=$pdo->query("SELECT * FROM produit WHERE id='$id'")->fetch(PDO::FETCH_ASSOC);
+$p=$adminController->getProduitById((int)$id);
+if (!$p) { header('Location: liste_produits.php'); exit(); }
 ?>
 <!DOCTYPE html>
 <html lang="fr">

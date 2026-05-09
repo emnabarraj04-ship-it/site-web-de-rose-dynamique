@@ -2,23 +2,18 @@
 // ===== front/profil.php =====
 session_start();
 if (!isset($_SESSION['user_id'])) { header('Location: connexion.php'); exit(); }
-require_once '../classes/connexion.php';
+require_once '../controllers/FrontController.php';
+
+$frontController = new FrontController();
 
 $succes = ''; $erreur = '';
-$req  = $pdo->query("SELECT * FROM utilisateur WHERE id='".$_SESSION['user_id']."'");
-$user = $req->fetch(PDO::FETCH_ASSOC);
+$user = $frontController->getUserById((int)$_SESSION['user_id']);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $nom = $_POST['nom']; $prenom = $_POST['prenom']; $adresse = $_POST['adresse'];
-    if (empty($nom) || empty($prenom)) { $erreur = "Nom et prénom obligatoires."; }
-    else {
-        $id = $_SESSION['user_id'];
-        $pdo->exec("UPDATE utilisateur SET nom='$nom', prenom='$prenom', adresse='$adresse' WHERE id='$id'");
-        $_SESSION['user_nom'] = $nom;
-        $succes = "Profil mis à jour !";
-        $req  = $pdo->query("SELECT * FROM utilisateur WHERE id='$id'");
-        $user = $req->fetch(PDO::FETCH_ASSOC);
-    }
+    $result = $frontController->updateProfil((int)$_SESSION['user_id'], $_POST);
+    $erreur = $result['erreur'];
+    $succes = $result['succes'];
+    $user = $frontController->getUserById((int)$_SESSION['user_id']);
 }
 ?>
 <!DOCTYPE html>

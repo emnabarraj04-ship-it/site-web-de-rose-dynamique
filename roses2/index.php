@@ -11,11 +11,10 @@ if (isset($_GET['accepter_cookie'])) {
 }
 
 session_start();
-require_once 'classes/connexion.php';
+require_once 'controllers/FrontController.php';
 
-// Récupérer les produits (Chapitre 3)
-$res     = $pdo->query("SELECT * FROM produit");
-$produits = $res->fetchAll(PDO::FETCH_ASSOC);
+$frontController = new FrontController();
+$produits = $frontController->getAllProduits();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
