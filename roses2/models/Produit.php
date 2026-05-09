@@ -10,12 +10,16 @@ class Produit
 
     public function getAll(): array
     {
-        return $this->pdo->query("SELECT * FROM produit")->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->pdo->prepare("SELECT * FROM produit");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getAvailable(): array
     {
-        return $this->pdo->query("SELECT * FROM produit WHERE stock > 0")->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->pdo->prepare("SELECT * FROM produit WHERE stock > 0");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getById(int $id): ?array
@@ -72,7 +76,9 @@ class Produit
 
     public function countAll(): int
     {
-        return (int) $this->pdo->query("SELECT count(*) FROM produit")->fetchColumn();
+        $stmt = $this->pdo->prepare("SELECT count(*) FROM produit");
+        $stmt->execute();
+        return (int) $stmt->fetchColumn();
     }
 }
 ?>

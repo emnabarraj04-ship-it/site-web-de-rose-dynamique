@@ -53,12 +53,16 @@ class Utilisateur
 
     public function countClients(): int
     {
-        return (int) $this->pdo->query("SELECT count(*) FROM utilisateur WHERE role='client'")->fetchColumn();
+        $stmt = $this->pdo->prepare("SELECT count(*) FROM utilisateur WHERE role = :role");
+        $stmt->execute([':role' => 'client']);
+        return (int) $stmt->fetchColumn();
     }
 
     public function getAll(): array
     {
-        return $this->pdo->query("SELECT * FROM utilisateur ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->pdo->prepare("SELECT * FROM utilisateur ORDER BY id DESC");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>

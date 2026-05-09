@@ -144,6 +144,7 @@ class FrontController
             if ($this->pdo->inTransaction()) {
                 $this->pdo->rollBack();
             }
+            error_log('[FrontController::passerCommande] ' . $e->getMessage());
             return ['erreur' => 'Erreur lors de la commande.', 'succes' => ''];
         }
     }

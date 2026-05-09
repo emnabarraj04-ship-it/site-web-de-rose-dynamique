@@ -36,18 +36,22 @@ class Commande
 
     public function getAllWithRelations(): array
     {
-        return $this->pdo->query(
+        $stmt = $this->pdo->prepare(
             "SELECT c.*, u.nom, u.prenom, p.nom AS produit, p.image, p.prix
              FROM commande c
              JOIN utilisateur u ON c.user_id = u.id
              JOIN produit p ON c.produit_id = p.id
              ORDER BY c.date_cmd DESC"
-        )->fetchAll(PDO::FETCH_ASSOC);
+        );
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function countAll(): int
     {
-        return (int) $this->pdo->query("SELECT count(*) FROM commande")->fetchColumn();
+        $stmt = $this->pdo->prepare("SELECT count(*) FROM commande");
+        $stmt->execute();
+        return (int) $stmt->fetchColumn();
     }
 }
 ?>
