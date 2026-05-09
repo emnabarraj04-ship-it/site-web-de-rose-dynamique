@@ -6,4 +6,5 @@ if ($id != '') {
     $us->supprimer_user($id);
 }
 header('location:../view/liste.php');
+exit();
 ?>

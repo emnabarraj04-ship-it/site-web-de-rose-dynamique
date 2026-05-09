@@ -16,4 +16,5 @@ if ($n == 0) {
 } else {
     header('location: ../view/inscriptionForm.html');
 }
+exit();
 ?>

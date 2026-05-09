@@ -7,4 +7,5 @@ if ($us->user_cin != '' && $us->user_nom != '') {
     $us->modifier_user($us->user_cin);
 }
 header('location: ../view/liste.php');
+exit();
 ?>

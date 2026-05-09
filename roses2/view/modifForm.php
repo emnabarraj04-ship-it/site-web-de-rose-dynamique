@@ -24,11 +24,11 @@ $nom = $data['user_nom'];
 <body>
     <h2>Modifier utilisateur</h2>
     <form action="../controller/modification.php" method="post">
-        <label>Code</label><br>
-        <input type="text" name="cin" value="<?php echo htmlspecialchars($cin, ENT_QUOTES, 'UTF-8'); ?>" readonly><br><br>
+        <label for="cin">Code</label><br>
+        <input type="text" id="cin" name="cin" value="<?php echo htmlspecialchars($cin, ENT_QUOTES, 'UTF-8'); ?>" readonly><br><br>
 
-        <label>Nom</label><br>
-        <input type="text" name="nom" value="<?php echo htmlspecialchars($nom, ENT_QUOTES, 'UTF-8'); ?>" required><br><br>
+        <label for="nom">Nom</label><br>
+        <input type="text" id="nom" name="nom" value="<?php echo htmlspecialchars($nom, ENT_QUOTES, 'UTF-8'); ?>" required><br><br>
 
         <button type="submit">Modifier</button>
     </form>
