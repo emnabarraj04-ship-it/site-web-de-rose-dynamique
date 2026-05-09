@@ -75,7 +75,13 @@ class FrontController
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_nom'] = $user['nom'];
         $_SESSION['user_role'] = $user['role'];
-        setcookie("dernier_visiteur", $user['prenom'], time() + 60 * 60 * 24 * 30, "/", "", 0);
+        setcookie("dernier_visiteur", $user['prenom'], [
+            'expires' => time() + 60 * 60 * 24 * 30,
+            'path' => '/',
+            'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+            'httponly' => true,
+            'samesite' => 'Lax',
+        ]);
 
         if ($user['role'] === 'admin') {
             return ['erreur' => '', 'redirect' => '../back/dashboard.php'];

@@ -6,6 +6,7 @@ require_once __DIR__ . '/../models/Commande.php';
 
 class AdminController
 {
+    private const DEFAULT_EMOJI = '🌹';
     private Utilisateur $utilisateurModel;
     private Produit $produitModel;
     private Commande $commandeModel;
@@ -48,13 +49,13 @@ class AdminController
         $description = trim($data['description'] ?? '');
         $prix = (float) ($data['prix'] ?? 0);
         $stock = (int) ($data['stock'] ?? 0);
-        $image = trim($data['image'] ?? '🌹');
+        $image = trim($data['image'] ?? self::DEFAULT_EMOJI);
 
         if ($nom === '' || $prix <= 0) {
             return ['erreur' => 'Nom et prix obligatoires.'];
         }
 
-        $ok = $this->produitModel->create($nom, $description, $prix, $stock, $image !== '' ? $image : '🌹');
+        $ok = $this->produitModel->create($nom, $description, $prix, $stock, $image !== '' ? $image : self::DEFAULT_EMOJI);
         return ['erreur' => $ok ? '' : 'Erreur lors de l’ajout du produit.'];
     }
 
@@ -64,13 +65,13 @@ class AdminController
         $description = trim($data['description'] ?? '');
         $prix = (float) ($data['prix'] ?? 0);
         $stock = (int) ($data['stock'] ?? 0);
-        $image = trim($data['image'] ?? '🌹');
+        $image = trim($data['image'] ?? self::DEFAULT_EMOJI);
 
         if ($nom === '' || $prix <= 0) {
             return ['erreur' => 'Nom et prix obligatoires.'];
         }
 
-        $ok = $this->produitModel->update($id, $nom, $description, $prix, $stock, $image !== '' ? $image : '🌹');
+        $ok = $this->produitModel->update($id, $nom, $description, $prix, $stock, $image !== '' ? $image : self::DEFAULT_EMOJI);
         return ['erreur' => $ok ? '' : 'Erreur lors de la modification du produit.'];
     }
 
