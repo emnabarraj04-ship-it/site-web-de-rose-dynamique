@@ -19,10 +19,12 @@ $res = $us->listusers();
             <td>Supprimer</td>
         </tr>
         <?php foreach ($res as $row) {
-            echo "<tr><td>$row[0]</td>";
-            echo "<td>$row[1]</td>";
-            echo "<td><a href='modifForm.php?id=$row[0]'>Modifier</a></td>";
-            echo "<td><a href='../controller/sup.php?id=$row[0]'>Supprimer</a></td></tr>";
+            $cin = htmlspecialchars($row[0], ENT_QUOTES, 'UTF-8');
+            $nom = htmlspecialchars($row[1], ENT_QUOTES, 'UTF-8');
+            echo "<tr><td>$cin</td>";
+            echo "<td>$nom</td>";
+            echo "<td><a href='modifForm.php?id=$cin'>Modifier</a></td>";
+            echo "<td><a href='../controller/sup.php?id=$cin'>Supprimer</a></td></tr>";
         } ?>
     </table>
     <p><a href="inscriptionForm.html">Ajouter un utilisateur</a></p>
