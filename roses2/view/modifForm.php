@@ -7,13 +7,13 @@ if ($id == '') {
     exit();
 }
 $res = $us->getuser($id);
-$data = $res->fetchAll(PDO::FETCH_ASSOC);
-if (!isset($data[0])) {
+$data = $res->fetch(PDO::FETCH_ASSOC);
+if (!$data) {
     header('location: liste.php');
     exit();
 }
-$cin = $data[0]['user_cin'];
-$nom = $data[0]['user_nom'];
+$cin = $data['user_cin'];
+$nom = $data['user_nom'];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
